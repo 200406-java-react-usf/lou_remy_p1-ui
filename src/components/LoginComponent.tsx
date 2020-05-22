@@ -15,8 +15,8 @@ import { User } from '../models/user';
 import { Redirect } from 'react-router-dom';
 
 interface ILoginProps {
-    authUser: User;
-    setAuthUser: (user:User)=> void
+    authUser:any;
+    setAuthUser: (user:any)=> void
 }
 
 const useStyles =makeStyles({
@@ -54,6 +54,8 @@ function LoginComponent( props: ILoginProps){
     }
 
     return(
+        props.authUser && props.authUser.user_role_id === 2 ? 
+        <Redirect to="/finmanhome"></Redirect>:
         props.authUser ?<Redirect to="/home"/>:
         <>
         <div className = {classes.loginContainer}>
@@ -83,7 +85,7 @@ function LoginComponent( props: ILoginProps){
                 
                 <br/><br/>
                 {
-                    errorMessage?<Alert severity="info">{errorMessage}</Alert>:<></>
+                    // errorMessage?<Alert severity="info">{errorMessage}</Alert>:<></>
                 }
                 </form>
             </div>          

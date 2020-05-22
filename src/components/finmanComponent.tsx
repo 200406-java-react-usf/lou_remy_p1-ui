@@ -3,22 +3,22 @@ import { Redirect } from 'react-router-dom';
 import { Card, Typography, CardContent } from '@material-ui/core';
 import { Reimbursement } from '../models/reimb'
 import { User } from '../models/user';
-import  {getallreimbsbyid}  from '../remote/reimb-services';
+import { getallreimbs } from '../remote/reimb-services';
 import { Link } from '@material-ui/core'
 
-interface IHomeProps {
+interface IFinmanProps {
     authUser: any;
+    reimbs: any;
     
 }
-
-const HomeComponent = (props: IHomeProps) => {
+const FinmanComponent = (props: IFinmanProps) => {
     const [reimbState,setReimbState] = useState([] as Reimbursement[])
-    let myReimbs: any[] = [];
+    let allReimbs: any[] = [];
     useEffect(()=>{
         async function getData(){
-            const response = await getallreimbsbyid(props.authUser.id)
+            const response = await getallreimbs()
             for( let i of response ){
-                myReimbs.push(
+                allReimbs.push(
                     <tr>
                         <td>{i.reimb_id}</td>
                         <td>{i.amount}</td>
@@ -29,11 +29,11 @@ const HomeComponent = (props: IHomeProps) => {
                         <td>{i.resolver_id}</td>
                         <td>{i.reimb_status_id}</td>
                         <td>{i.reimb_type_id}</td>
-                        <td><Link></Link></td>
+                        
                     </tr>
                 )
             }
-            setReimbState(myReimbs)
+            setReimbState(allReimbs)
         }
         getData()
     },[])
@@ -57,7 +57,9 @@ const HomeComponent = (props: IHomeProps) => {
                       <th>author_id</th>
                       <th>resolver_id</th>
                       <th>reimb_status_id</th>
-                      <th>reimb_type_id</th>      
+                      <th>reimb_type_id</th>
+                      <td><Link >Approve</Link></td>
+                      <td><Link >Deny</Link></td>      
                     </tr>
                 </thead>
                 <tbody>
@@ -69,4 +71,4 @@ const HomeComponent = (props: IHomeProps) => {
 
 }
 
-export default HomeComponent;
+export default FinmanComponent;
